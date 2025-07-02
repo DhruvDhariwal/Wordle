@@ -21,6 +21,7 @@ const WORD_LIST = [
   "adage",
   "adapt",
   "adept",
+  "adieu",
   "admin",
   "admit",
   "adobe",
