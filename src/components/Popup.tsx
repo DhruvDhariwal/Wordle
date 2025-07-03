@@ -5,17 +5,32 @@ import styled from '@emotion/styled';
 const PopupContainer = styled(motion.div)`
   position: fixed;
   top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateY(-50%);
   background: #262626;
   color: #fff;
-  padding: 16px 32px;
+  padding: 8px 18px;
   border-radius: 8px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   text-align: center;
+  box-sizing: border-box;
+  max-width: 200px;
+  @media (max-width: 600px) {
+    max-width: 54vw;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(-50%);
+    padding: 8px 6vw;
+    font-size: 1rem;
+  }
 `;
 
 interface PopupProps {

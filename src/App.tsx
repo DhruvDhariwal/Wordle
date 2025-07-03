@@ -245,6 +245,9 @@ const App: React.FC = () => {
     setPopup({ message: 'Link copied!', show: true });
   };
 
+  // Overlay for Play Again / Next Word popup
+  const showEndGamePopup = gameStatus === 'won' || gameStatus === 'lost';
+
   return (
     <>
       <Global styles={globalStyles} />
@@ -362,21 +365,38 @@ const App: React.FC = () => {
           </div>
           <Keyboard onKey={onKey} keyStatuses={keyStatuses} />
           <Popup message={popup.message} show={popup.show} />
-          {(gameStatus === 'won' || gameStatus === 'lost') && (
-            <div style={{ display: 'flex', flexDirection: 'row', gap: 16, marginTop: 24 }}>
-              <button
-                onClick={handlePlayAgain}
-                style={{ padding: '12px 32px', fontSize: 18, fontWeight: 600, borderRadius: 8, background: '#538d4e', color: '#fff', border: 'none', cursor: 'pointer' }}
-              >
-                Play Again
-              </button>
-              <button
-                onClick={handleNextWord}
-                style={{ padding: '12px 32px', fontSize: 18, fontWeight: 600, borderRadius: 8, background: '#3a7bd5', color: '#fff', border: 'none', cursor: wordNumber >= WORD_LIST.length ? 'not-allowed' : 'pointer', opacity: wordNumber >= WORD_LIST.length ? 0.5 : 1 }}
-                disabled={wordNumber >= WORD_LIST.length}
-              >
-                Next Word
-              </button>
+          {showEndGamePopup && (
+            <div style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: '#222',
+              borderRadius: 12,
+              boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+              padding: '32px 24px',
+              zIndex: 2000,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              minWidth: 220,
+              maxWidth: '90vw',
+            }}>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
+                <button
+                  onClick={handlePlayAgain}
+                  style={{ padding: '12px 32px', fontSize: 18, fontWeight: 600, borderRadius: 8, background: '#538d4e', color: '#fff', border: 'none', cursor: 'pointer' }}
+                >
+                  Play Again
+                </button>
+                <button
+                  onClick={handleNextWord}
+                  style={{ padding: '12px 32px', fontSize: 18, fontWeight: 600, borderRadius: 8, background: '#3a7bd5', color: '#fff', border: 'none', cursor: wordNumber >= WORD_LIST.length ? 'not-allowed' : 'pointer', opacity: wordNumber >= WORD_LIST.length ? 0.5 : 1 }}
+                  disabled={wordNumber >= WORD_LIST.length}
+                >
+                  Next Word
+                </button>
+              </div>
             </div>
           )}
         </div>

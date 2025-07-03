@@ -50,3 +50,25 @@ code {
     margin-bottom: 16px !important;
   }
 }
+
+@media (max-width: 400px) {
+  .KeyboardContainer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 0 1vw;
+  }
+  .KeyButton {
+    width: 8vw !important;
+    min-width: 8vw !important;
+    max-width: 8vw !important;
+    font-size: 16px !important;
+    margin: 0 1vw !important;
+    padding: 0 !important;
+  }
+  .KeyButton.special-key {
+    width: 13vw !important;
+    min-width: 13vw !important;
+    max-width: 13vw !important;
+    font-size: 11px !important;
+  }
+}
