@@ -142,6 +142,13 @@ const App: React.FC = () => {
     setSolutionByNumber(wordNumber);
   };
 
+  // Handle Next Word (increment word number and start new game)
+  const handleNextWord = () => {
+    if (wordNumber < WORD_LIST.length) {
+      setSolutionByNumber(wordNumber + 1);
+    }
+  };
+
   // Unified key handler (for both on-screen and physical keyboard)
   const handleKey = useCallback((key: string) => {
     if (gameStatusRef.current !== 'playing') return;
@@ -336,9 +343,21 @@ const App: React.FC = () => {
           <Keyboard onKey={onKey} keyStatuses={keyStatuses} />
           <Popup message={popup.message} show={popup.show} />
           {(gameStatus === 'won' || gameStatus === 'lost') && (
-            <button onClick={handlePlayAgain} style={{ marginTop: 24, padding: '12px 32px', fontSize: 18, fontWeight: 600, borderRadius: 8, background: '#538d4e', color: '#fff', border: 'none', cursor: 'pointer' }}>
-              Play Again
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: 16, marginTop: 24 }}>
+              <button
+                onClick={handlePlayAgain}
+                style={{ padding: '12px 32px', fontSize: 18, fontWeight: 600, borderRadius: 8, background: '#538d4e', color: '#fff', border: 'none', cursor: 'pointer' }}
+              >
+                Play Again
+              </button>
+              <button
+                onClick={handleNextWord}
+                style={{ padding: '12px 32px', fontSize: 18, fontWeight: 600, borderRadius: 8, background: '#3a7bd5', color: '#fff', border: 'none', cursor: wordNumber >= WORD_LIST.length ? 'not-allowed' : 'pointer', opacity: wordNumber >= WORD_LIST.length ? 0.5 : 1 }}
+                disabled={wordNumber >= WORD_LIST.length}
+              >
+                Next Word
+              </button>
+            </div>
           )}
         </div>
       </div>
