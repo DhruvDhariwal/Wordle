@@ -19,6 +19,12 @@ const TileContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 600px) {
+    width: 12vw;
+    height: 12vw;
+    min-width: 36px;
+    min-height: 36px;
+  }
 `;
 
 const StyledTile = styled.div<{ status: TileStatus }>`
@@ -36,6 +42,9 @@ const StyledTile = styled.div<{ status: TileStatus }>`
   box-sizing: border-box;
   position: relative;
   border-radius: 6px;
+  @media (max-width: 600px) {
+    font-size: 1.5rem;
+  }
 `;
 
 type TileProps = {
