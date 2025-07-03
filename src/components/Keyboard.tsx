@@ -32,12 +32,6 @@ const KeyButton = styled.button<{ status?: TileStatus }>`
   cursor: pointer;
   user-select: none;
   transition: background 0.2s;
-  @media (max-width: 600px) {
-    height: 7vw;
-    min-width: 28px;
-    font-size: 0.9rem;
-    padding: 0 6px;
-  }
 `;
 
 interface KeyboardProps {

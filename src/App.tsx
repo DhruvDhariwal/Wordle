@@ -241,14 +241,7 @@ const App: React.FC = () => {
   return (
     <>
       <Global styles={globalStyles} />
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        minHeight: '100vh',
-        width: '100vw',
-        overflowX: 'hidden',
-        position: 'relative',
-      }}>
+      <div style={{ display: 'flex', flexDirection: 'row', minHeight: '100vh' }}>
         {/* Sidebar */}
         <div style={{
           width: sidebarOpen ? 220 : 40,
@@ -258,23 +251,7 @@ const App: React.FC = () => {
           flexDirection: 'column',
           alignItems: sidebarOpen ? 'flex-start' : 'center',
           borderRight: '2px solid #222',
-          transition: 'width 0.2s, padding 0.2s',
-          position: 'relative',
-          zIndex: 10,
-          ...(window.innerWidth < 600 ? {
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: sidebarOpen ? 220 : 40,
-            borderRight: 'none',
-            borderBottom: '2px solid #222',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            padding: sidebarOpen ? 12 : 4,
-            overflowX: 'auto',
-          } : {})
+          transition: 'width 0.2s, padding 0.2s'
         }}>
           <button
             onClick={() => setSidebarOpen((open) => !open)}
@@ -352,25 +329,8 @@ const App: React.FC = () => {
           </>}
         </div>
         {/* Main game area */}
-        <div style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          paddingTop: window.innerWidth < 600 ? 12 : 32,
-          width: '100vw',
-          minHeight: window.innerWidth < 600 ? 'calc(100vh - 220px)' : '100vh',
-        }}>
-          <div style={{
-            height: window.innerWidth < 600 ? '60vw' : 404,
-            width: '100vw',
-            maxWidth: 420,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            margin: '0 auto',
-          }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 32 }}>
+          <div style={{ height: 404, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
             <GameBoard guesses={boardGuesses} statuses={boardStatuses} maxRows={MAX_ROWS} />
           </div>
           <Keyboard onKey={onKey} keyStatuses={keyStatuses} />
