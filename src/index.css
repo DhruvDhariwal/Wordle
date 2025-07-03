@@ -11,3 +11,42 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media (max-width: 600px) {
+  .TileContainer {
+    width: 62px !important;
+    height: 62px !important;
+    margin: 1.5px !important;
+  }
+  .StyledTile {
+    font-size: 2rem !important;
+  }
+  .KeyboardContainer {
+    width: 100vw !important;
+    max-width: 420px !important;
+    margin: 16px auto 0 auto !important;
+    padding: 0 2vw;
+    box-sizing: border-box;
+  }
+  .KeyboardContainer > div {
+    margin-bottom: 8px !important;
+  }
+  .KeyButton {
+    width: 36.6px !important;
+    height: 58px !important;
+    min-width: 36.6px !important;
+    max-width: 36.6px !important;
+    font-size: 20px !important;
+    margin: 0 3px !important;
+    padding: 0 !important;
+  }
+  .KeyButton.special-key {
+    width: 54.96px !important;
+    min-width: 54.96px !important;
+    max-width: 54.96px !important;
+    font-size: 12px !important;
+  }
+  .board-mobile-spacing {
+    margin-bottom: 16px !important;
+  }
+}

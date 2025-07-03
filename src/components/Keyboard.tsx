@@ -40,11 +40,12 @@ interface KeyboardProps {
 }
 
 const Keyboard: React.FC<KeyboardProps> = ({ onKey, keyStatuses }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 16 }}>
+  <div className="KeyboardContainer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 16 }}>
     {KEYS.map((row, i) => (
       <div key={i} style={{ display: 'flex', justifyContent: 'center' }}>
         {row.map((key) => (
           <KeyButton
+            className={key === 'enter' || key === 'back' ? 'KeyButton special-key' : 'KeyButton'}
             key={key}
             status={keyStatuses[key]}
             onClick={() => onKey(key)}

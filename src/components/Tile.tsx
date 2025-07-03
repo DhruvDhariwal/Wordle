@@ -36,6 +36,9 @@ const StyledTile = styled.div<{ status: TileStatus }>`
   box-sizing: border-box;
   position: relative;
   border-radius: 6px;
+  @media (max-width: 600px) {
+    font-size: clamp(1rem, 6vw, 2.5rem);
+  }
 `;
 
 type TileProps = {
@@ -44,8 +47,8 @@ type TileProps = {
 };
 
 const Tile: React.FC<TileProps> = ({ letter, status }) => (
-  <TileContainer>
-    <StyledTile status={status}>
+  <TileContainer className="TileContainer">
+    <StyledTile className="StyledTile" status={status}>
       {letter}
     </StyledTile>
   </TileContainer>

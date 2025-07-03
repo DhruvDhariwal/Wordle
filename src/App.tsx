@@ -71,7 +71,7 @@ const App: React.FC = () => {
   const [wordNumber, setWordNumber] = useState<number>(1);
   const [sidebarInput, setSidebarInput] = useState<string>('1');
   const [sidebarError, setSidebarError] = useState<string>('');
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [completedWords, setCompletedWords] = useState<{num: number, word: string}[]>(() => {
     const saved = localStorage.getItem('completedWords');
     return saved ? JSON.parse(saved) : [];
@@ -248,96 +248,116 @@ const App: React.FC = () => {
   return (
     <>
       <Global styles={globalStyles} />
-      <div style={{ display: 'flex', flexDirection: 'row', minHeight: '100vh' }}>
-        {/* Sidebar */}
+      {/* Top bar with menu button */}
+      <div style={{ width: '100%', background: '#18181b', padding: '8px 0', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', borderBottom: '2px solid #222', position: 'relative', zIndex: 10 }}>
+        <button
+          onClick={() => setDropdownOpen((open) => !open)}
+          style={{ background: 'none', border: 'none', color: '#fff', fontSize: 24, cursor: 'pointer', marginLeft: 16 }}
+          title={dropdownOpen ? 'Close menu' : 'Open menu'}
+        >
+          ☰
+        </button>
+        <span style={{ color: '#fff', fontSize: 20, fontWeight: 600, marginLeft: 16 }}>Wordle - made by Dhruv</span>
+      </div>
+      {/* Dropdown panel */}
+      {dropdownOpen && (
         <div style={{
-          width: sidebarOpen ? 220 : 40,
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          width: '100vw',
           background: '#18181b',
-          padding: sidebarOpen ? 24 : 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: sidebarOpen ? 'flex-start' : 'center',
-          borderRight: '2px solid #222',
-          transition: 'width 0.2s, padding 0.2s'
+          color: '#fff',
+          zIndex: 100,
+          padding: '24px 12px',
+          borderBottom: '2px solid #222',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+          maxHeight: '80vh',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          boxSizing: 'border-box',
         }}>
           <button
-            onClick={() => setSidebarOpen((open) => !open)}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#fff',
-              fontSize: 20,
-              cursor: 'pointer',
-              marginBottom: sidebarOpen ? 16 : 0,
-              alignSelf: 'flex-end',
-              width: 32,
-              height: 32
-            }}
-            title={sidebarOpen ? 'Collapse' : 'Expand'}
+            onClick={() => setDropdownOpen(false)}
+            style={{ position: 'absolute', top: 12, right: 16, background: 'none', border: 'none', color: '#fff', fontSize: 28, cursor: 'pointer' }}
+            title="Close menu"
           >
-            {sidebarOpen ? '⟨' : '⟩'}
+            ×
           </button>
-          {sidebarOpen && <>
-            <h2 style={{ color: '#fff', fontSize: 20, marginBottom: 16 }}>Word Number</h2>
-            <input
-              type="number"
-              min={1}
-              max={WORD_LIST.length}
-              value={sidebarInput}
-              onChange={e => setSidebarInput(e.target.value)}
-              style={{ width: '100%', fontSize: 18, padding: 8, borderRadius: 4, border: '1px solid #333', marginBottom: 8, background: '#222', color: '#fff' }}
-            />
-            <button
-              onClick={handleSidebarPlay}
-              style={{ width: '100%', padding: 10, fontSize: 18, borderRadius: 4, background: '#538d4e', color: '#fff', border: 'none', cursor: 'pointer', marginBottom: 8 }}
-            >
-              Play
-            </button>
-            <button
-              onClick={handleCopyLink}
-              style={{ width: '100%', padding: 8, fontSize: 15, borderRadius: 4, background: '#333', color: '#fff', border: 'none', cursor: 'pointer', marginBottom: 8 }}
-            >
-              Copy Link
-            </button>
-            <div style={{ color: '#aaa', fontSize: 14, marginBottom: 8 }}>
-              Current: <b>#{wordNumber}</b>
+          <h2 style={{ color: '#fff', fontSize: 20, marginBottom: 16 }}>Word Number</h2>
+          <input
+            type="number"
+            min={1}
+            max={WORD_LIST.length}
+            value={sidebarInput}
+            onChange={e => setSidebarInput(e.target.value)}
+            style={{ width: '100%', fontSize: 18, padding: 8, borderRadius: 4, border: '1px solid #333', marginBottom: 8, background: '#222', color: '#fff' }}
+          />
+          <button
+            onClick={handleSidebarPlay}
+            style={{ width: '100%', padding: 10, fontSize: 18, borderRadius: 4, background: '#538d4e', color: '#fff', border: 'none', cursor: 'pointer', marginBottom: 8 }}
+          >
+            Play
+          </button>
+          <button
+            onClick={handleCopyLink}
+            style={{ width: '100%', padding: 8, fontSize: 15, borderRadius: 4, background: '#333', color: '#fff', border: 'none', cursor: 'pointer', marginBottom: 8 }}
+          >
+            Copy Link
+          </button>
+          <div style={{ color: '#aaa', fontSize: 14, marginBottom: 8 }}>
+            Current: <b>#{wordNumber}</b>
+          </div>
+          {sidebarError && <div style={{ color: '#ff6666', fontSize: 14 }}>{sidebarError}</div>}
+          {/* Completed words list */}
+          <div style={{ marginTop: 24, width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+              <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, flex: 1 }}>Completed Words</div>
+              <button
+                onClick={() => setShowCompletedWords(v => !v)}
+                style={{ background: '#333', color: '#fff', border: 'none', borderRadius: 4, padding: '2px 10px', fontSize: 13, cursor: 'pointer' }}
+                title={showCompletedWords ? 'Hide words' : 'Show words'}
+              >
+                {showCompletedWords ? 'Hide' : 'Show'}
+              </button>
             </div>
-            {sidebarError && <div style={{ color: '#ff6666', fontSize: 14 }}>{sidebarError}</div>}
-            {/* Completed words list */}
-            <div style={{ marginTop: 24, width: '100%' }}>
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
-                <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, flex: 1 }}>Completed Words</div>
-                <button
-                  onClick={() => setShowCompletedWords(v => !v)}
-                  style={{ background: '#333', color: '#fff', border: 'none', borderRadius: 4, padding: '2px 10px', fontSize: 13, cursor: 'pointer' }}
-                  title={showCompletedWords ? 'Hide words' : 'Show words'}
-                >
-                  {showCompletedWords ? 'Hide' : 'Show'}
-                </button>
-              </div>
-              <div style={{ maxHeight: 180, overflowY: 'auto', background: '#222', borderRadius: 6, padding: 8, border: '1px solid #333' }}>
-                {completedWords.length === 0 ? (
-                  <div style={{ color: '#aaa', fontSize: 13 }}>No words completed yet.</div>
-                ) : (
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    {completedWords
-                      .sort((a, b) => a.num - b.num)
-                      .map(({ num, word }) => (
-                        <li key={num} style={{ color: '#b5e48c', fontSize: 14, marginBottom: 4 }}>
-                          #{num}: <span style={{ color: '#fff', fontWeight: 500 }}>
-                            {showCompletedWords ? word.toUpperCase() : '*****'}
-                          </span>
-                        </li>
-                      ))}
-                  </ul>
-                )}
-              </div>
+            <div style={{ maxHeight: 180, overflowY: 'auto', background: '#222', borderRadius: 6, padding: 8, border: '1px solid #333' }}>
+              {completedWords.length === 0 ? (
+                <div style={{ color: '#aaa', fontSize: 13 }}>No words completed yet.</div>
+              ) : (
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {completedWords
+                    .sort((a, b) => a.num - b.num)
+                    .map(({ num, word }) => (
+                      <li key={num} style={{ color: '#b5e48c', fontSize: 14, marginBottom: 4 }}>
+                        #{num}: <span style={{ color: '#fff', fontWeight: 500 }}>
+                          {showCompletedWords ? word.toUpperCase() : '*****'}
+                        </span>
+                      </li>
+                    ))}
+                </ul>
+              )}
             </div>
-          </>}
+          </div>
         </div>
+      )}
+      <div style={{ display: 'flex', flexDirection: 'row', minHeight: '100vh' }}>
         {/* Main game area */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 32 }}>
-          <div style={{ height: 404, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+          <div
+            className={window.innerWidth < 600 ? 'board-mobile-spacing' : ''}
+            style={{
+              width: window.innerWidth < 600 ? '96vw' : 420,
+              maxWidth: 420,
+              margin: '0 auto',
+              height: 404,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              boxSizing: 'border-box',
+            }}>
             <GameBoard guesses={boardGuesses} statuses={boardStatuses} maxRows={MAX_ROWS} />
           </div>
           <Keyboard onKey={onKey} keyStatuses={keyStatuses} />
